@@ -1,0 +1,112 @@
+/* stile semplice per il progetto spese mediche */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 20px;
+}
+
+h1 {
+  color: #2c5f8a;
+  text-align: center;
+}
+
+h2 {
+  color: #444;
+  margin-top: 30px;
+}
+
+/* contenitore principale */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* form per aggiungere spesa */
+.form-aggiunta {
+  background: #eaf4ff;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 25px;
+}
+
+.form-aggiunta input,
+.form-aggiunta select {
+  padding: 8px;
+  margin: 5px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  margin: 4px;
+}
+
+.btn-verde  { background-color: #28a745; color: white; }
+.btn-rosso  { background-color: #dc3545; color: white; }
+.btn-blu    { background-color: #007bff; color: white; }
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+/* tabella spese */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th {
+  background-color: #2c5f8a;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+td {
+  padding: 9px 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* riepilogo totale */
+.riepilogo {
+  margin-top: 20px;
+  padding: 12px;
+  background: #fff3cd;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+/* sezione download */
+.download-section {
+  margin-top: 25px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.download-section a {
+  display: inline-block;
+  margin: 5px;
+  text-decoration: none;
+}
+
+/* badge rimborsabile */
+.si  { color: green; font-weight: bold; }
+.no  { color: red;   font-weight: bold; }

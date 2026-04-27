@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Spese Mediche</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h1>🏥 Monitoraggio Spese Mediche</h1>
+
+  <!-- ======= FORM AGGIUNTA SPESA ======= -->
+  <h2>Aggiungi una spesa</h2>
+  <div class="form-aggiunta">
+    <input type="date"   id="data"        placeholder="Data" />
+    <input type="text"   id="descrizione" placeholder="Descrizione" />
+    <select id="categoria">
+      <option value="Visita">Visita</option>
+      <option value="Farmaci">Farmaci</option>
+      <option value="Esami">Esami</option>
+      <option value="Fisioterapia">Fisioterapia</option>
+      <option value="Altro">Altro</option>
+    </select>
+    <input type="number" id="importo"     placeholder="Importo (€)" step="0.01" min="0" />
+    <label>
+      <input type="checkbox" id="rimborsabile" /> Rimborsabile
+    </label>
+    <br><br>
+    <button class="btn btn-verde" onclick="aggiungiSpesa()">➕ Aggiungi</button>
+  </div>
+
+  <!-- ======= TABELLA SPESE ======= -->
+  <h2>Lista Spese</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Descrizione</th>
+        <th>Categoria</th>
+        <th>Importo</th>
+        <th>Rimborsabile</th>
+        <th>Azione</th>
+      </tr>
+    </thead>
+    <tbody id="corpo-tabella">
+      <!-- le righe vengono inserite da JavaScript -->
+    </tbody>
+  </table>
+
+  <!-- ======= TOTALE ======= -->
+  <div class="riepilogo" id="riepilogo">
+    Totale: € 0.00
+  </div>
+
+  <!-- ======= DOWNLOAD FILE ======= -->
+  <div class="download-section">
+    <h2>📁 Scarica i dati</h2>
+    <a href="/download/json" class="btn btn-blu">⬇️ JSON</a>
+    <a href="/download/csv"  class="btn btn-blu">⬇️ CSV</a>
+    <a href="/download/xml"  class="btn btn-blu">⬇️ XML</a>
+  </div>
+</div>
+
+<!-- ======= JAVASCRIPT ======= -->
+<script>
+
+  // Carica le spese dal server e le mostra in tabella
+  async function caricaSpese() {
+    const risposta = await fetch('/api/spese')
+    const spese    = await risposta.json()
+    mostraSpese(spese)
+  }
+
+  // Costruisce le righe della tabella
+  function mostraSpese(spese) {
+    const tbody = document.getElementById('corpo-tabella')
+    tbody.innerHTML = '' // svuota la tabella prima
+
+    let totale = 0
+
+    for (const s of spese) {
+      totale += s.importo
+
+      const riga = document.createElement('tr')
+      riga.innerHTML = `
+        <td>${s.id}</td>
+        <td>${s.data}</td>
+        <td>${s.descrizione}</td>
+        <td>${s.categoria}</td>
+        <td>€ ${s.importo.toFixed(2)}</td>
+        <td class="${s.rimborsabile ? 'si' : 'no'}">${s.rimborsabile ? 'Sì' : 'No'}</td>
+        <td>
+          <button class="btn btn-rosso" onclick="eliminaSpesa(${s.id})">🗑️ Elimina</button>
+        </td>
+      `
+      tbody.appendChild(riga)
+    }
+
+    // Aggiorna il totale
+    document.getElementById('riepilogo').textContent = `Totale spese: € ${totale.toFixed(2)}`
+  }
+
+  // Aggiunge una nuova spesa
+  async function aggiungiSpesa() {
+    const data         = document.getElementById('data').value
+    const descrizione  = document.getElementById('descrizione').value
+    const categoria    = document.getElementById('categoria').value
+    const importo      = document.getElementById('importo').value
+    const rimborsabile = document.getElementById('rimborsabile').checked
+
+    // Controllo campi
+    if (!data || !descrizione || !importo) {
+      alert('Compila tutti i campi!')
+      return
+    }
+
+    // Manda i dati al server
+    await fetch('/api/spese', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data, descrizione, categoria, importo, rimborsabile })
+    })
+
+    // Pulisce il form
+    document.getElementById('data').value        = ''
+    document.getElementById('descrizione').value = ''
+    document.getElementById('importo').value     = ''
+    document.getElementById('rimborsabile').checked = false
+
+    // Ricarica la tabella
+    caricaSpese()
+  }
+
+  // Elimina una spesa per id
+  async function eliminaSpesa(id) {
+    if (!confirm('Sei sicuro di voler eliminare questa spesa?')) return
+
+    await fetch('/api/spese/' + id, { method: 'DELETE' })
+    caricaSpese()
+  }
+
+  // Carica le spese all'avvio della pagina
+  caricaSpese()
+
+</script>
+
+</body>
+</html>

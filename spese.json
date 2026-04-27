@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "data": "2024-01-15",
+    "descrizione": "Visita dal cardiologo",
+    "categoria": "Visita",
+    "importo": 120,
+    "rimborsabile": true
+  },
+  {
+    "id": 2,
+    "data": "2024-02-03",
+    "descrizione": "Antibiotici in farmacia",
+    "categoria": "Farmaci",
+    "importo": 34.5,
+    "rimborsabile": true
+  },
+  {
+    "id": 3,
+    "data": "2024-03-20",
+    "descrizione": "Ecografia",
+    "categoria": "Esami",
+    "importo": 85,
+    "rimborsabile": false
+  },
+  {
+    "id": 4,
+    "data": "2024-04-10",
+    "descrizione": "Fisioterapia schiena",
+    "categoria": "Fisioterapia",
+    "importo": 300,
+    "rimborsabile": false
+  },
+  {
+    "data": "2026-04-30",
+    "descrizione": "esami de sangue",
+    "categoria": "Esami",
+    "importo": 53,
+    "rimborsabile": true,
+    "id": 5
+  }
+]
