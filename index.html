@@ -1,149 +1,211 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <title>Spese Mediche</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmacia - Gestione Spese Mediche</title>
+    <style>
+        /* STILE FARMACIA MODERNO */
+        :root {
+            --primary: #2e7d32;   /* Verde Farmacia */
+            --light: #f1f8f5;     /* Sfondo chiarissimo */
+            --white: #ffffff;
+            --accent: #4caf50;
+            --border: #dcedc8;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--light);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(46, 125, 50, 0.1);
+            border-top: 10px solid var(--primary);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 { color: var(--primary); margin: 0; font-size: 2rem; }
+
+        /* FORM */
+        .input-card {
+            background: #f9fdfa;
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .check-group { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        button:hover { background-color: var(--accent); }
+
+        /* TABELLA */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .rimborsabile-si { color: var(--primary); font-weight: bold; }
+        .rimborsabile-no { color: #999; }
+
+        /* TOTALE */
+        .total-display {
+            margin-top: 25px;
+            text-align: right;
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: bold;
+            padding-top: 15px;
+            border-top: 2px solid var(--primary);
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>🏥 Monitoraggio Spese Mediche</h1>
+    <header>
+        <h1>🩺 Registro Spese Mediche</h1>
+        <p>Monitoraggio spese e rimborsi farmaceutici</p>
+    </header>
 
-  <!-- ======= FORM AGGIUNTA SPESA ======= -->
-  <h2>Aggiungi una spesa</h2>
-  <div class="form-aggiunta">
-    <input type="date"   id="data"        placeholder="Data" />
-    <input type="text"   id="descrizione" placeholder="Descrizione" />
-    <select id="categoria">
-      <option value="Visita">Visita</option>
-      <option value="Farmaci">Farmaci</option>
-      <option value="Esami">Esami</option>
-      <option value="Fisioterapia">Fisioterapia</option>
-      <option value="Altro">Altro</option>
-    </select>
-    <input type="number" id="importo"     placeholder="Importo (€)" step="0.01" min="0" />
-    <label>
-      <input type="checkbox" id="rimborsabile" /> Rimborsabile
-    </label>
-    <br><br>
-    <button class="btn btn-verde" onclick="aggiungiSpesa()">➕ Aggiungi</button>
-  </div>
+    <div class="input-card">
+        <input type="date" id="data" required>
+        <input type="text" id="nome" placeholder="Nome farmaco / Visita" required>
+        <input type="number" id="costo" placeholder="Costo €" step="0.01" required>
+        <select id="categoria">
+            <option value="Farmaci">Farmaci</option>
+            <option value="Visita Specialistica">Visita</option>
+            <option value="Esami Diagnostici">Esami</option>
+            <option value="Altro">Altro</option>
+        </select>
+        <div class="check-group">
+            <input type="checkbox" id="rimborsabile"> Rimborsabile
+        </div>
+        <button id="addBtn">Aggiungi</button>
+    </div>
 
-  <!-- ======= TABELLA SPESE ======= -->
-  <h2>Lista Spese</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Data</th>
-        <th>Descrizione</th>
-        <th>Categoria</th>
-        <th>Importo</th>
-        <th>Rimborsabile</th>
-        <th>Azione</th>
-      </tr>
-    </thead>
-    <tbody id="corpo-tabella">
-      <!-- le righe vengono inserite da JavaScript -->
-    </tbody>
-  </table>
+    <table>
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Descrizione</th>
+                <th>Costo</th>
+                <th>Categoria</th>
+                <th>Rimborso</th>
+            </tr>
+        </thead>
+        <tbody id="listaSpese">
+            </tbody>
+    </table>
 
-  <!-- ======= TOTALE ======= -->
-  <div class="riepilogo" id="riepilogo">
-    Totale: € 0.00
-  </div>
-
-  <!-- ======= DOWNLOAD FILE ======= -->
-  <div class="download-section">
-    <h2>📁 Scarica i dati</h2>
-    <a href="/download/json" class="btn btn-blu">⬇️ JSON</a>
-    <a href="/download/csv"  class="btn btn-blu">⬇️ CSV</a>
-    <a href="/download/xml"  class="btn btn-blu">⬇️ XML</a>
-  </div>
+    <div class="total-display">
+        Totale Spesa: <span id="totale">0.00</span> €
+    </div>
 </div>
 
-<!-- ======= JAVASCRIPT ======= -->
 <script>
+    // LOGICA FRONTEND
+    const lista = document.getElementById('listaSpese');
+    const totaleLabel = document.getElementById('totale');
 
-  // Carica le spese dal server e le mostra in tabella
-  async function caricaSpese() {
-    const risposta = await fetch('/api/spese')
-    const spese    = await risposta.json()
-    mostraSpese(spese)
-  }
+    async function caricaDati() {
+        const res = await fetch('/api/spese');
+        const spese = await res.json();
+        
+        let somma = 0;
+        lista.innerHTML = '';
 
-  // Costruisce le righe della tabella
-  function mostraSpese(spese) {
-    const tbody = document.getElementById('corpo-tabella')
-    tbody.innerHTML = '' // svuota la tabella prima
-
-    let totale = 0
-
-    for (const s of spese) {
-      totale += s.importo
-
-      const riga = document.createElement('tr')
-      riga.innerHTML = `
-        <td>${s.id}</td>
-        <td>${s.data}</td>
-        <td>${s.descrizione}</td>
-        <td>${s.categoria}</td>
-        <td>€ ${s.importo.toFixed(2)}</td>
-        <td class="${s.rimborsabile ? 'si' : 'no'}">${s.rimborsabile ? 'Sì' : 'No'}</td>
-        <td>
-          <button class="btn btn-rosso" onclick="eliminaSpesa(${s.id})">🗑️ Elimina</button>
-        </td>
-      `
-      tbody.appendChild(riga)
+        spese.forEach(s => {
+            somma += s.costo;
+            const rimbText = s.rimborsabile ? '<span class="rimborsabile-si">✅ SI</span>' : '<span class="rimborsabile-no">❌ NO</span>';
+            
+            lista.innerHTML += `
+                <tr>
+                    <td>${s.data}</td>
+                    <td><strong>${s.nome}</strong></td>
+                    <td>${s.costo.toFixed(2)} €</td>
+                    <td>${s.categoria}</td>
+                    <td>${rimbText}</td>
+                </tr>
+            `;
+        });
+        totaleLabel.innerText = somma.toFixed(2);
     }
 
-    // Aggiorna il totale
-    document.getElementById('riepilogo').textContent = `Totale spese: € ${totale.toFixed(2)}`
-  }
+    document.getElementById('addBtn').addEventListener('click', async () => {
+        const data = {
+            data: document.getElementById('data').value,
+            nome: document.getElementById('nome').value,
+            costo: parseFloat(document.getElementById('costo').value),
+            categoria: document.getElementById('categoria').value,
+            rimborsabile: document.getElementById('rimborsabile').checked
+        };
 
-  // Aggiunge una nuova spesa
-  async function aggiungiSpesa() {
-    const data         = document.getElementById('data').value
-    const descrizione  = document.getElementById('descrizione').value
-    const categoria    = document.getElementById('categoria').value
-    const importo      = document.getElementById('importo').value
-    const rimborsabile = document.getElementById('rimborsabile').checked
+        if(!data.data || !data.nome || isNaN(data.costo)) return alert("Compila tutti i campi!");
 
-    // Controllo campi
-    if (!data || !descrizione || !importo) {
-      alert('Compila tutti i campi!')
-      return
-    }
+        await fetch('/api/spese', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
 
-    // Manda i dati al server
-    await fetch('/api/spese', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ data, descrizione, categoria, importo, rimborsabile })
-    })
+        // Pulisce i campi e ricarica
+        document.getElementById('nome').value = '';
+        document.getElementById('costo').value = '';
+        caricaDati();
+    });
 
-    // Pulisce il form
-    document.getElementById('data').value        = ''
-    document.getElementById('descrizione').value = ''
-    document.getElementById('importo').value     = ''
-    document.getElementById('rimborsabile').checked = false
-
-    // Ricarica la tabella
-    caricaSpese()
-  }
-
-  // Elimina una spesa per id
-  async function eliminaSpesa(id) {
-    if (!confirm('Sei sicuro di voler eliminare questa spesa?')) return
-
-    await fetch('/api/spese/' + id, { method: 'DELETE' })
-    caricaSpese()
-  }
-
-  // Carica le spese all'avvio della pagina
-  caricaSpese()
-
+    caricaDati();
 </script>
 
 </body>
