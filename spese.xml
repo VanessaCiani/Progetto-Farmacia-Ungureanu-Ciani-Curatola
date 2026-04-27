@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<spese>
-  <spesa>
-    <id>1</id>
-    <data>2024-01-15</data>
-    <descrizione>Visita dal cardiologo</descrizione>
-    <categoria>Visita</categoria>
-    <importo>120</importo>
-    <rimborsabile>true</rimborsabile>
-  </spesa>
-  <spesa>
-    <id>2</id>
-    <data>2024-02-03</data>
-    <descrizione>Antibiotici in farmacia</descrizione>
-    <categoria>Farmaci</categoria>
-    <importo>34.5</importo>
-    <rimborsabile>true</rimborsabile>
-  </spesa>
-  <spesa>
-    <id>3</id>
-    <data>2024-03-20</data>
-    <descrizione>Ecografia</descrizione>
-    <categoria>Esami</categoria>
-    <importo>85</importo>
-    <rimborsabile>false</rimborsabile>
-  </spesa>
-  <spesa>
-    <id>4</id>
-    <data>2024-04-10</data>
-    <descrizione>Fisioterapia schiena</descrizione>
-    <categoria>Fisioterapia</categoria>
-    <importo>300</importo>
-    <rimborsabile>false</rimborsabile>
-  </spesa>
-  <spesa>
-    <id>5</id>
-    <data>2026-04-30</data>
-    <descrizione>esami de sangue</descrizione>
-    <categoria>Esami</categoria>
-    <importo>53</importo>
-    <rimborsabile>true</rimborsabile>
-  </spesa>
-</spese>
+<spese_farmacia>
+    <spesa>
+        <id>1</id>
+        <data>2024-01-15</data>
+        <descrizione>Visita dal cardiologo</descrizione>
+        <categoria>Visita</categoria>
+        <importo>120.00</importo>
+        <rimborsabile>true</rimborsabile>
+    </spesa>
+    <spesa>
+        <id>2</id>
+        <data>2024-02-03</data>
+        <descrizione>Antibiotici in farmacia</descrizione>
+        <categoria>Farmaci</categoria>
+        <importo>34.50</importo>
+        <rimborsabile>true</rimborsabile>
+    </spesa>
+    <spesa>
+        <id>3</id>
+        <data>2024-03-20</data>
+        <descrizione>Ecografia</descrizione>
+        <categoria>Esami</categoria>
+        <importo>85.00</importo>
+        <rimborsabile>false</rimborsabile>
+    </spesa>
+    <spesa>
+        <id>4</id>
+        <data>2024-04-10</data>
+        <descrizione>Fisioterapia per la Schiena</descrizione>
+        <categoria>Fisioterapia</categoria>
+        <importo>300.00</importo>
+        <rimborsabile>false</rimborsabile>
+    </spesa>
+    <spesa>
+        <id>5</id>
+        <data>2026-04-30</data>
+        <descrizione>Esami del Sangue</descrizione>
+        <categoria>Esami</categoria>
+        <importo>53.00</importo>
+        <rimborsabile>true</rimborsabile>
+    </spesa>
+</spese_farmacia>

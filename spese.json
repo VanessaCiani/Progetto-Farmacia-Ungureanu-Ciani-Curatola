@@ -2,7 +2,7 @@
   {
     "id": 1,
     "data": "2024-01-15",
-    "descrizione": "Visita dal cardiologo",
+    "descrizione": "Visita dal Cardiologo",
     "categoria": "Visita",
     "importo": 120,
     "rimborsabile": true
@@ -10,7 +10,7 @@
   {
     "id": 2,
     "data": "2024-02-03",
-    "descrizione": "Antibiotici in farmacia",
+    "descrizione": "Antibiotici in Farmacia",
     "categoria": "Farmaci",
     "importo": 34.5,
     "rimborsabile": true
@@ -26,17 +26,25 @@
   {
     "id": 4,
     "data": "2024-04-10",
-    "descrizione": "Fisioterapia schiena",
+    "descrizione": "Fisioterapia per la Schiena",
     "categoria": "Fisioterapia",
     "importo": 300,
     "rimborsabile": false
   },
   {
+    "id": 5,
     "data": "2026-04-30",
-    "descrizione": "esami de sangue",
+    "descrizione": "Esami del Sangue",
     "categoria": "Esami",
     "importo": 53,
-    "rimborsabile": true,
-    "id": 5
+    "rimborsabile": true
+  },
+  {
+    "id": 1777296294464,
+    "data": "2026-04-08",
+    "descrizione": "Preservativi",
+    "categoria": "Farmaci",
+    "importo": 10,
+    "rimborsabile": false
   }
 ]
