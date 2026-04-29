@@ -38,13 +38,5 @@
     "categoria": "Esami",
     "importo": 53,
     "rimborsabile": true
-  },
-  {
-    "id": 1777296294464,
-    "data": "2026-04-08",
-    "descrizione": "Preservativi",
-    "categoria": "Farmaci",
-    "importo": 10,
-    "rimborsabile": false
   }
 ]
