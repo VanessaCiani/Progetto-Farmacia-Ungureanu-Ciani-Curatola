@@ -3,7 +3,7 @@
     <spesa>
         <id>1</id>
         <data>2024-01-15</data>
-        <descrizione>Visita dal cardiologo</descrizione>
+        <descrizione>Visita dal Cardiologo</descrizione>
         <categoria>Visita</categoria>
         <importo>120.00</importo>
         <rimborsabile>true</rimborsabile>
@@ -11,7 +11,7 @@
     <spesa>
         <id>2</id>
         <data>2024-02-03</data>
-        <descrizione>Antibiotici in farmacia</descrizione>
+        <descrizione>Antibiotici in Farmacia</descrizione>
         <categoria>Farmaci</categoria>
         <importo>34.50</importo>
         <rimborsabile>true</rimborsabile>
