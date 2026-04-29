@@ -43,6 +43,20 @@ button {
 
 button:hover { background-color: #2ecc71; }
 
+/* STILE PER IL BOTTONE ELIMINA */
+.btn-elimina {
+    background-color: #e74c3c;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-elimina:hover {
+    background-color: #c0392b;
+}
+
 table {
     width: 100%;
     border-collapse: collapse;
