@@ -4,33 +4,25 @@ const path = require('path');
 const app = express();
 const PORT = 3000;
 
-//Definiamo il percorso del database JSON nella cartella corrente
 const DB_PATH = path.join(__dirname, 'spese.json');
 
-app.use(express.json());             //Permette al server di leggere dati JSON inviati dal browser
-app.use(express.static(__dirname));  //Rende accessibili i file CSS e immagini nella stessa cartella
+app.use(express.json());             
+app.use(express.static(__dirname));  
 
-// --- GESTIONE ROTTE (End-points) ---
-
-//Carica la pagina iniziale (index.html) quando si apre http://localhost:3000
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-//ROTTA GET: Legge il file JSON e invia i dati al browser
 app.get('/api/spese', (req, res) => {
     const datiRaw = fs.readFileSync(DB_PATH, 'utf8'); 
     const spese = JSON.parse(datiRaw);               
     res.json(spese);                              
 });
 
-//ROTTA POST: Riceve una nuova spesa dal browser e la salva nel file
 app.post('/api/spese', (req, res) => {
     const spese = JSON.parse(fs.readFileSync(DB_PATH, 'utf8')); 
-    
-    //Crea l'oggetto della nuova spesa con i dati ricevuti dal form
     const nuovaSpesa = {
-        id: Date.now(), //Crea un ID unico basato sull'orario attuale
+        id: Date.now(), // ID univoco necessario per identificare la spesa da eliminare
         data: req.body.data,
         descrizione: req.body.descrizione,
         categoria: req.body.categoria,
@@ -38,12 +30,21 @@ app.post('/api/spese', (req, res) => {
         rimborsabile: req.body.rimborsabile
     };
 
-    spese.push(nuovaSpesa); //Aggiunge la nuova spesa alla lista
-    
-    //Sovrascrive il file spese.json con la lista aggiornata
+    spese.push(nuovaSpesa); 
     fs.writeFileSync(DB_PATH, JSON.stringify(spese, null, 2));
+    res.status(201).json(nuovaSpesa);
+});
+
+// NUOVA ROTTA PER L'ELIMINAZIONE
+app.delete('/api/spese/:id', (req, res) => {
+    const idDaEliminare = parseInt(req.params.id);
+    let spese = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
     
-    res.status(201).json(nuovaSpesa); //Conferma al browser che l'operazione è riuscita
+    // Crea un nuovo array escludendo l'elemento con l'ID fornito
+    const nuoveSpese = spese.filter(s => s.id !== idDaEliminare);
+    
+    fs.writeFileSync(DB_PATH, JSON.stringify(nuoveSpese, null, 2));
+    res.json({ messaggio: "Spesa eliminata correttamente" });
 });
 
 app.listen(PORT, () => {
