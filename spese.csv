@@ -1,6 +1,6 @@
-id,data,descrizione,categoria,importo,rimborsabile
-1,2024-01-15,Visita dal Cardiologo,Visita,120.00,true
-2,2024-02-03,Antibiotici in Farmacia,Farmaci,34.50,true
-3,2024-03-20,Ecografia,Esami,85.00,false
-4,2024-04-10,Fisioterapia per la Schiena,Fisioterapia,300.00,false
-5,2026-04-30,Esami del Sangue,Esami,53.00,true
+id	data	descrizione	categoria	importo	rimborsabile
+1	2024-01-15	Visita dal Cardiologo	Visita	120.00	true
+2	2024-02-03	Antibiotici in Farmacia	Farmaci	34.50	true
+3	2024-03-20	Ecografia	Esami	85.00	false
+4	2024-04-10	Fisioterapia per la Schiena	Fisioterapia	300.00	false
+5	2026-04-30	Esami del Sangue	Esami	53.00	true
