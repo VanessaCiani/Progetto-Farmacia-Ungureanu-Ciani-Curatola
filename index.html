@@ -36,32 +36,36 @@
     <script>
         //FUNZIONE: caricaTabella
         //Scopo: Chiede al server i dati JSON e li mostra nella tabella HTML
+        //Richiamata all'avvio (Riga 115) e dopo ogni modifica ai dati
         async function caricaTabella() {
-            //Chiama l'endpoint GET del server (Riga 23 di server.js)
+            // Chiama l'endpoint GET del server (server.js -> riga 23)
             const risposta = await fetch('/api/spese');
             const dati = await risposta.json();
             
             const corpo = document.getElementById('tabellaCorpo');
             let somma = 0;
             
-            corpo.innerHTML = ''; //Svuota la tabella prima di ricaricarla
+            corpo.innerHTML = ''; // Svuota la tabella prima di ricaricarla
             
             dati.forEach(s => {
                 somma += parseFloat(s.importo);
-                //Crea una riga per ogni spesa nel database
+                // Crea una riga per ogni spesa nel database
                 corpo.innerHTML += `
                     <tr>
                         <td>${s.data}</td>
                         <td>${s.descrizione}</td>
                         <td>${s.categoria}</td>
                         <td>${parseFloat(s.importo).toFixed(2)} €</td>
-                        <td>${s.rimborsabile ? 'SI' : 'NO'}</td>                        <td><button onclick="eliminaSpesa(${s.id})">Elimina</button></td>                    </tr>`;
+                        <td>${s.rimborsabile ? 'SI' : 'NO'}</td>
+                        <td><button onclick="eliminaSpesa(${s.id})">Elimina</button></td>
+                    </tr>`;
             });
             document.getElementById('valoreTotale').innerText = somma.toFixed(2);
         }
 
         //FUNZIONE: salvaSpesa
         //Scopo: Legge i dati dal form e li invia al server per il salvataggio
+        //Richiamata dal click sul bottone "Aggiungi Spesa" (Riga 26)
         async function salvaSpesa() {
             // Raccoglie i valori inseriti dall'utente negli input HTML
             const nuova = {
@@ -75,7 +79,7 @@
             //Validazione base
             if(!nuova.data || !nuova.descrizione || !nuova.importo) return alert("Dati mancanti!");
 
-            //Invia i dati al server tramite l'endpoint POST (riga 30 di server.js)
+            //Invia i dati al server tramite l'endpoint POST (server.js -> riga 30)
             const response = await fetch('/api/spese', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
@@ -87,7 +91,7 @@
                 return alert('Errore durante il salvataggio: ' + errorText);
             }
 
-            // Resetta i campi del form dopo il salvataggio
+            //Resetta i campi del form dopo il salvataggio
             document.getElementById('data').value = '';
             document.getElementById('descrizione').value = '';
             document.getElementById('importo').value = '';
@@ -97,8 +101,12 @@
             caricaTabella(); //Dopo il salvataggio, aggiorna la vista
         }
 
+        //FUNZIONE: eliminaSpesa
+        //Scopo: Invia una richiesta di eliminazione al server per un ID specifico
+        //Richiamata dal bottone "Elimina" all'interno della tabella (Riga 62)
         async function eliminaSpesa(id) {
             if (!confirm('Sei sicuro di voler eliminare questa spesa?')) return;
+            //Chiama l'endpoint DELETE del server (server.js -> riga 48)
             const response = await fetch(`/api/spese/${id}`, { method: 'DELETE' });
             if (!response.ok) {
                 const errorText = await response.text();
