@@ -26,7 +26,7 @@
             <thead>
                 <tr>
                     <th>Data</th><th>Descrizione</th><th>Categoria</th><th>Prezzo</th><th>Rimb.</th>
-                </tr>
+                    <th>Azioni</th> </tr>
             </thead>
             <tbody id="tabellaCorpo"></tbody>
         </table>
@@ -34,21 +34,17 @@
     </div>
 
     <script>
-        //FUNZIONE: caricaTabella
-        //Scopo: Chiede al server i dati JSON e li mostra nella tabella HTML
         async function caricaTabella() {
-            //Chiama l'endpoint GET del server (Riga 23 di server.js)
             const risposta = await fetch('/api/spese');
             const dati = await risposta.json();
             
             const corpo = document.getElementById('tabellaCorpo');
             let somma = 0;
             
-            corpo.innerHTML = ''; //Svuota la tabella prima di ricaricarla
+            corpo.innerHTML = ''; 
             
             dati.forEach(s => {
                 somma += parseFloat(s.importo);
-                //Crea una riga per ogni spesa nel database
                 corpo.innerHTML += `
                     <tr>
                         <td>${s.data}</td>
@@ -56,15 +52,15 @@
                         <td>${s.categoria}</td>
                         <td>${parseFloat(s.importo).toFixed(2)} €</td>
                         <td>${s.rimborsabile ? '✅' : '❌'}</td>
+                        <td>
+                            <button class="btn-elimina" onclick="eliminaSpesa(${s.id})">🗑️</button>
+                        </td>
                     </tr>`;
             });
             document.getElementById('valoreTotale').innerText = somma.toFixed(2);
         }
 
-        //FUNZIONE: salvaSpesa
-        //Scopo: Legge i dati dal form e li invia al server per il salvataggio
         async function salvaSpesa() {
-            // Raccoglie i valori inseriti dall'utente negli input HTML
             const nuova = {
                 data: document.getElementById('data').value,
                 descrizione: document.getElementById('descrizione').value,
@@ -73,20 +69,28 @@
                 rimborsabile: document.getElementById('rimborsabile').checked
             };
 
-            //Validazione base
             if(!nuova.data || !nuova.descrizione || !nuova.importo) return alert("Dati mancanti!");
 
-            //Invia i dati al server tramite l'endpoint POST (riga 30 di server.js)
             await fetch('/api/spese', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(nuova)
             });
 
-            caricaTabella(); //Dopo il salvataggio, aggiorna la vista
+            caricaTabella();
         }
 
-        //Avvia il caricamento dei dati non appena la pagina viene aperta
+        // FUNZIONE PER ELIMINARE LA SPESA
+        async function eliminaSpesa(id) {
+            if (!confirm("Sei sicuro di voler eliminare questa spesa?")) return;
+
+            await fetch(`/api/spese/${id}`, {
+                method: 'DELETE'
+            });
+
+            caricaTabella(); // Ricarica la tabella aggiornata
+        }
+
         caricaTabella();
     </script>
 </body>
