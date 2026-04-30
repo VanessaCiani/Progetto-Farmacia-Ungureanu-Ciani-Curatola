@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Registro Spese</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-container { max-width: 400px; margin: 100px auto; padding: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #27ae60; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body style="background-color: #f4f7f6;">
+    <div class="login-container">
+        <h2>Accedi al Registro</h2>
+        <input type="text" id="nome" placeholder="Il tuo Nome">
+        <input type="email" id="email" placeholder="La tua Email">
+        <button onclick="login()">Entra</button>
+    </div>
+    <script>
+        function login() {
+            const nome = document.getElementById('nome').value;
+            const email = document.getElementById('email').value;
+            if(nome && email) {
+                localStorage.setItem('user_nome', nome);
+                localStorage.setItem('user_email', email);
+                window.location.href = 'index.html';
+            } else { alert("Inserisci tutti i dati"); }
+        }
+    </script>
+</body>
+</html>
