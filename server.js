@@ -56,7 +56,7 @@ app.get('/api/spese', (req, res) => {
 // Scopo: Riceve una nuova spesa, la aggiunge all'array globale e aggiorna tutti i file (JSON, CSV, XML)
 app.post('/api/spese', (req, res) => {
     const data = JSON.parse(fs.readFileSync(JSON_PATH, 'utf8'));
-    const nuovaSpesa = { id: Date.now(), ...req.body };
+    const nuovaSpesa = { id: Date.now(), ...req.body }; //Genera un ID numerico univoco basato sul millesimo di secondo esatto in cui è arrivata la richiesta
     data.push(nuovaSpesa);
     salvaTuttiIFile(data);
     res.status(201).json(nuovaSpesa);
